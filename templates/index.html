@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Calculator</title>
+</head>
+
+<body>
+  <h1>Titanic predictor</h1>
+  <div>
+    "Hello this is the app that predicts would you survived on Titanic or not"
+  </div>
+  <form action="/custom_predictions" method="post">
+    
+    <label for="Class">Класс:</label>
+    <input type="number" id="Class" placeholder="Класс" name="Class" required><br><br>
+
+    <label for="Sex">Пол:</label>
+    <input type="string" id="Sex" placeholder="Пол" name="Sex" required><br><br>
+
+    <label for="Age">Возраст:</label>
+    <input type="number" id="Age" placeholder="Возраст" name="Age" required><br><br>
+
+    <label for="SibSp">Количество братьев и сестер:</label>
+    <input type="text" id="SibSp" placeholder="Братья, сестры" name="SibSp" required><br><br>
+
+    <label for="parch">Количество родителей и детей:</label>
+    <input type="number" id="parch" placeholder="Родители, дети" name="parch" required><br><br>
+    
+    <label for="Fare">Цена:</label>
+    <input type="number" id="Fare" placeholder="Цена" name="Fare" required><br><br>
+    
+    <label for="deck">Палуба:</label>
+    <input type="string" id="deck" placeholder="Палуба" name="Deck" required><br><br>
+
+    <label for="cabin">Номер каюты:</label>
+    <input type="number" id="cabin" placeholder="Номер каюты" name="Cabin" required><br><br>
+
+    <label for="embarked">Место посадки:</label>
+    <input type="string" id="embarked" placeholder="Место посадки" name="embarked" required><br><br>
+    
+    <label for="title">Ваш титул:</label>
+    <input type="string" id="title" placeholder="Титул" name="title" required><br><br>
+
+    <label for="ticket_name">№ билета:</label>
+    <input type="string" id="ticket_name" placeholder="№ билета" name="ticket_name" required><br><br>
+
+    <button type="submit">Вычислить</button>
+
+
+    <!-- insert.pclass
+      request_data["Sex"] = insert.sex
+      request_data["Age"] = insert.age
+      request_data["SibSp"] = insert.sibsp
+      request_data["Parch"] = insert.parch
+      request_data["Fare"] = insert.fare
+      request_data["Cabin"] = insert.cabin
+      request_data["Embarked"] = insert.embarked
+      request_data["Deck"] = insert.deck
+      request_data["Title"] = str(insert.title)
+      request_data["New_ticket"] = change_ticket_name(insert.ticket_name) -->
+  </form>
+  <div id="result">
+    {{ result }}
+  </div>
+</body>
+
+</html>

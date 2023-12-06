@@ -28,6 +28,9 @@ def predictions(input_data):
     
     return positive_preds
 
+def get_cabin(deck, cabin_number):
+    return deck + cabin_number
+
 
 if __name__ == "__main__":
     input = {

@@ -1,7 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from typing import List
-from model.model import change_ticket_name, predictions
+from fastapi.templating import Jinja2Templates
+
+from model.model import change_ticket_name, predictions, get_cabin
 from .schemas import User, User_ticket
+
+
+
 
 
 data = {
@@ -31,12 +36,14 @@ fake_users = [
 ]
 
 
+
+templates = Jinja2Templates(directory="templates")
 app = FastAPI(title="Titanic preds")
 
 
 @app.get("/")
-def main():
-    return "Hello this is the app that predicts would you survived on Titanic or not"
+def main(request: Request):
+    return templates.TemplateResponse("index.html", {'request': request})
 
 
 @app.get("/users/{user_id}", response_model=List[User])
@@ -62,3 +69,32 @@ def get_ticket_info(insert: User_ticket):
         "status": 200,
         "data": f"Ваши данные получены. Ваша вероятность выжить составляет: {result}"
     }
+
+@app.post("/custom_predictions")
+async def custom_predictions(request: Request):
+    request_data = {}
+    form_data = await request.form()
+    # print(form_data)
+
+    request_data["Pclass"] = form_data['Class']
+    request_data["Sex"] = form_data['Sex']
+    request_data["Age"] = form_data['Age']
+    request_data["SibSp"] = form_data['SibSp']
+    request_data["Parch"] = form_data['parch']
+    request_data["Fare"] = form_data['Fare']
+    request_data["Deck"] = form_data['Deck']    
+    request_data["Cabin"] = get_cabin(form_data['Deck'], form_data['Cabin'])
+    request_data["Embarked"] = form_data['embarked']
+    request_data["Title"] = form_data['title']
+    request_data["New_ticket"] = change_ticket_name(form_data['ticket_name'])
+
+    prediction = round(prediction(request_data), 3)
+
+    if prediction >= 0.5:
+        result = f'Поздравляю! Вероятность того, что Вы выживите на титанике составляет: {prediction}'
+    else:
+        result = f'К сожалению вероятность того, что Вы выживите на титанике составляет: {prediction}'
+
+    return templates.TemplateResponse("index.html", 
+                                      {'request': request, 
+                                       "result": result})
