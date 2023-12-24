@@ -4,9 +4,10 @@ import numpy as np
 
 model = CatBoostClassifier()
 
-model.load_model("model\model_4")
+# model.load_model("model_4")
+model.load_model("model/model_4")
 
-data = pd.read_csv("model\processed_data.csv", nrows=3)
+data = pd.read_csv("model/processed_data.csv", nrows=3)
 data.drop("Survived", axis=1, inplace=True)
 
 

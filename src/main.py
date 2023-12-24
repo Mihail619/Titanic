@@ -3,11 +3,9 @@ from typing import List
 from fastapi.templating import Jinja2Templates
 
 from model.model import change_ticket_name, predictions, get_cabin
-from .schemas import User, User_ticket
+from src.schemas import User, User_ticket
 
-
-
-
+'''Приложение'''
 
 data = {
     "pclass": 2,
@@ -88,7 +86,7 @@ async def custom_predictions(request: Request):
     request_data["Title"] = form_data['title']
     request_data["New_ticket"] = change_ticket_name(form_data['ticket_name'])
 
-    prediction = round(prediction(request_data), 3)
+    prediction = round(predictions(request_data), 3)
 
     if prediction >= 0.5:
         result = f'Поздравляю! Вероятность того, что Вы выживите на титанике составляет: {prediction}'
